@@ -9,12 +9,20 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Recipes",
+            ),
+          backgroundColor: Color(0xFF7A4A0F),
+          foregroundColor: Color(0xFFFFFAEC),
+        ),
         body: Center(
           child: Text('Hello World!'),
         ),
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
