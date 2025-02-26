@@ -14,6 +14,9 @@ class MainApp extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             "Recipes",
+            style: TextStyle(
+              fontFamily: 'Gorditas',
+            ),
             ),
           backgroundColor: Color(0xFF7A4A0F),
           foregroundColor: Color(0xFFFFFAEC),

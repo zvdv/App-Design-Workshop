@@ -17,3 +17,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  fonts:
+    - family: Gorditas
+      fonts:
+        - asset: fonts/Gorditas-Regular.ttf
+        - asset: fonts/Gorditas-Bold.ttf
+          weight: 700
