@@ -20,10 +20,30 @@ class MainApp extends StatelessWidget {
             ),
           backgroundColor: Color(0xFF7A4A0F),
           foregroundColor: Color(0xFFFFFAEC),
+          elevation: 6.0,
+          shadowColor: Color(0x00000000),
         ),
-        body: Center(
-          child: Text('Hello World!'),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: SearchBar(
+                backgroundColor: WidgetStateProperty.all(Color(0xFFFFFFFF)),
+                elevation: WidgetStateProperty.all(3.0),
+                hintText: "Search recipes...",
+                hintStyle: WidgetStateProperty.all(TextStyle(
+                  color: Color(0xFFE2D9C4),
+                )),
+                leading: Icon(
+                  Icons.search,
+                  color: Color(0xFFE2D9C4),
+                ),
+              ),
+            ),
+          ],
         ),
+        backgroundColor: Color(0xFFFFF4D9),
       ),
       debugShowCheckedModeBanner: false,
     );
