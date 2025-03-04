@@ -17,22 +17,28 @@ class MainApp extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'Gorditas',
             ),
-            ),
+          ),
           backgroundColor: Color(0xFF7A4A0F),
           foregroundColor: Color(0xFFFFFAEC),
           elevation: 6.0,
           shadowColor: Color(0x00000000),
+          surfaceTintColor: Colors.transparent,
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding:
+                  const EdgeInsets.fromLTRB(26, 12, 26, 0),
               child: SearchBar(
-                backgroundColor: WidgetStateProperty.all(Color(0xFFFFFFFF)),
-                elevation: WidgetStateProperty.all(3.0),
+                backgroundColor: WidgetStatePropertyAll(Color(0xFFFFFFFF)),
+                elevation: WidgetStatePropertyAll(3.0),
                 hintText: "Search recipes...",
-                hintStyle: WidgetStateProperty.all(TextStyle(
+                hintStyle: WidgetStatePropertyAll(TextStyle(
+                  color: Color(0xFFE2D9C4),
+                )),
+                overlayColor: WidgetStatePropertyAll(Color(0xFFFFFFFF)),
+                textStyle: WidgetStatePropertyAll(TextStyle(
                   color: Color(0xFFE2D9C4),
                 )),
                 leading: Icon(
@@ -41,6 +47,18 @@ class MainApp extends StatelessWidget {
                 ),
               ),
             ),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 3,
+                children: List.generate(12, (index) {
+                  return Center(
+                    child: Text(
+                      'Item $index',
+                    ),
+                  );
+                }),
+              ),
+            )
           ],
         ),
         backgroundColor: Color(0xFFFFF4D9),
