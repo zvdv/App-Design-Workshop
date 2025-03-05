@@ -62,14 +62,37 @@ class RecipeGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: GridView.count(
-        crossAxisCount: 3,
-        children: [
-          RecipeCard(
-            image: "assets/images/ema-datsi.jpg",
-            title: "Ema Datsi",
-          )
-        ]
-      ),
+          crossAxisCount: 3,
+          mainAxisSpacing: 4,
+          crossAxisSpacing: 4,
+          padding: EdgeInsets.all(8.0),
+          children: [
+            RecipeCard(
+              image: 'assets/images/ema-datsi.jpg',
+              title: "Ema Datsi",
+            ),
+            RecipeCard(
+              image: 'assets/images/friedrice.jpg',
+              title: "Fried Rice"
+            ),
+            RecipeCard(
+              image: 'assets/images/momo.jpeg',
+              title: "Momo"
+            ),
+            RecipeCard(
+              image: 'assets/images/pizza.jpg',
+              title: "Pizza"
+            ),
+            RecipeCard(
+              image: 'assets/images/puta.jpg',
+              title: "Puta"
+            ),
+            RecipeCard(
+              image: 'assets/images/thukpa.jpg',
+              title: "Thukpa"
+            ),
+          ]
+        ),
     );
   }
 }
