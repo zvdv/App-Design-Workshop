@@ -26,18 +26,25 @@ class RecipeCard extends StatelessWidget {
               image,
               fit: BoxFit.cover,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.white,
-                  fontFamily: "Gorditas",
-                ),
-                textAlign: TextAlign.start,
-                ),
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [Color(0xFF000000), Colors.transparent], begin: Alignment.bottomCenter, end: Alignment.topCenter)
+              ),
             ),
+            Positioned(
+                bottom: 12,
+                left: 16,
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.white,
+                    fontFamily: "Gorditas",
+                  ),
+                  //textAlign: TextAlign.start,
+                  ),
+              ),
+
           ],
         ),
       ),
