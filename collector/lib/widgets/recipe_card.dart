@@ -5,8 +5,9 @@ class RecipeCard extends StatefulWidget {
   //const RecipeCard({super.key});
   final String title;
   final String image;
+  bool showTitle = false;
 
-  const RecipeCard({
+  RecipeCard({
     super.key,
     required this.title,
     required this.image
@@ -20,8 +21,12 @@ class _RecipeCardState extends State<RecipeCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => print("Navigate to recipe page"),
-      onLongPress: () => print("Show title"),
+      onDoubleTap: () => {
+        print("Navigate to recipe page"),
+        //setState(() { widget.showTitle = true; })
+        },
+      onTapDown: (l) => setState(() { widget.showTitle = true; }),
+      onTapUp: (l) => setState(() { widget.showTitle = false; }),
       child: Card(
         clipBehavior: Clip.antiAlias,
         child: Stack(
@@ -31,12 +36,12 @@ class _RecipeCardState extends State<RecipeCard> {
               widget.image,
               fit: BoxFit.cover,
             ),
-            Container(
+            if (widget.showTitle) Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [Color(0xFF000000), Colors.transparent], begin: Alignment.bottomCenter, end: Alignment.topCenter)
               ),
             ),
-            Positioned(
+            if (widget.showTitle) Positioned(
                 bottom: 12,
                 left: 16,
                 child: Text(
