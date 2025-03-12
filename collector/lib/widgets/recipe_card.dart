@@ -19,7 +19,7 @@ class _RecipeCardState extends State<RecipeCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onDoubleTap: () => {
+      onTap: () => {
         Navigator.push(
           context,
           MaterialPageRoute<void>(builder: (context) => const Recipe())
@@ -55,7 +55,7 @@ class _RecipeCardState extends State<RecipeCard> {
                 child: Text(
                   widget.title,
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 20,
                     color: Colors.white,
                     fontFamily: "Gorditas",
                   ),
