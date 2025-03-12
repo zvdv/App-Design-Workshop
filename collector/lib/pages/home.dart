@@ -9,6 +9,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFFFF4D9),
       appBar: AppBar(
         title: Text(
           "Recipes",
@@ -48,7 +49,6 @@ class HomePage extends StatelessWidget {
           RecipeGrid()
         ],
       ),
-      backgroundColor: Color(0xFFFFF4D9),
     );
   }
 }

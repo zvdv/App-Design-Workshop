@@ -1,4 +1,5 @@
 // import 'package:collector/models/recipe_model.dart';
+import 'package:collector/pages/recipe.dart';
 import 'package:flutter/material.dart';
 
 class RecipeCard extends StatefulWidget {
@@ -6,11 +7,7 @@ class RecipeCard extends StatefulWidget {
   final String title;
   final String image;
 
-  const RecipeCard({
-    super.key,
-    required this.title,
-    required this.image
-  });
+  const RecipeCard({super.key, required this.title, required this.image});
 
   @override
   State<RecipeCard> createState() => _RecipeCardState();
@@ -23,11 +20,17 @@ class _RecipeCardState extends State<RecipeCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onDoubleTap: () => {
-        print("Navigate to recipe page"),
-        //setState(() { widget.showTitle = true; })
-        },
-      onTapDown: (l) => setState(() { showTitle = true; }),
-      onTapUp: (l) => setState(() { showTitle = false; }),
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(builder: (context) => const Recipe())
+        )
+      },
+      onTapDown: (l) => setState(() {
+        showTitle = true;
+      }),
+      onTapUp: (l) => setState(() {
+        showTitle = false;
+      }),
       child: Card(
         clipBehavior: Clip.antiAlias,
         child: Stack(
@@ -37,12 +40,16 @@ class _RecipeCardState extends State<RecipeCard> {
               widget.image,
               fit: BoxFit.cover,
             ),
-            if (showTitle) Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [Color(0xFF000000), Colors.transparent], begin: Alignment.bottomCenter, end: Alignment.topCenter)
+            if (showTitle)
+              Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [Color(0xFF000000), Colors.transparent],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter)),
               ),
-            ),
-            if (showTitle) Positioned(
+            if (showTitle)
+              Positioned(
                 bottom: 12,
                 left: 16,
                 child: Text(
@@ -53,9 +60,8 @@ class _RecipeCardState extends State<RecipeCard> {
                     fontFamily: "Gorditas",
                   ),
                   //textAlign: TextAlign.start,
-                  ),
+                ),
               ),
-
           ],
         ),
       ),
