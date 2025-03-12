@@ -1,5 +1,7 @@
+import 'package:collector/models/recipe_model.dart';
 import 'package:collector/widgets/recipe_card.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_ce/hive.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
@@ -66,33 +68,48 @@ class RecipeGrid extends StatelessWidget {
           mainAxisSpacing: 4,
           crossAxisSpacing: 4,
           padding: EdgeInsets.all(8.0),
-          children: [
-            RecipeCard(
-              image: 'assets/images/ema-datsi.jpg',
-              title: "Ema Datsi",
-            ),
-            RecipeCard(
-              image: 'assets/images/friedrice.jpg',
-              title: "Fried Rice"
-            ),
-            RecipeCard(
-              image: 'assets/images/momo.jpeg',
-              title: "Momo"
-            ),
-            RecipeCard(
-              image: 'assets/images/pizza.jpg',
-              title: "Pizza"
-            ),
-            RecipeCard(
-              image: 'assets/images/puta.jpg',
-              title: "Puta"
-            ),
-            RecipeCard(
-              image: 'assets/images/thukpa.jpg',
-              title: "Thukpa"
-            ),
-          ]
+          children: getRecipes(),
+          // [
+          //   RecipeCard(
+          //     image: 'assets/images/ema-datsi.jpg',
+          //     title: "Ema Datsi",
+          //   ),
+          //   RecipeCard(
+          //     image: 'assets/images/friedrice.jpg',
+          //     title: "Fried Rice"
+          //   ),
+          //   RecipeCard(
+          //     image: 'assets/images/momo.jpeg',
+          //     title: "Momo"
+          //   ),
+          //   RecipeCard(
+          //     image: 'assets/images/pizza.jpg',
+          //     title: "Pizza"
+          //   ),
+          //   RecipeCard(
+          //     image: 'assets/images/puta.jpg',
+          //     title: "Puta"
+          //   ),
+          //   RecipeCard(
+          //     image: 'assets/images/thukpa.jpg',
+          //     title: "Thukpa"
+          //   ),
+          // ]
         ),
     );
   }
+}
+
+List<RecipeCard> getRecipes(){
+  List<RecipeModel> recipes = Hive.box("RECIPE_BOX").get("RECIPES") ?? [];
+  List<RecipeCard> recipeCards = [];
+
+  for (RecipeModel recipe in recipes){
+    recipeCards.add(RecipeCard(
+      title: recipe.title,
+      image: recipe.imagePath
+    ));
+  }
+
+  return recipeCards;
 }
