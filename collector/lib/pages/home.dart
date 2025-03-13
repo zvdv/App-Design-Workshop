@@ -24,7 +24,6 @@ class HomePage extends StatelessWidget {
         foregroundColor: Color(0xFFFFFAEC),
         elevation: 6.0,
         shadowColor: Color(0x00000000),
-        surfaceTintColor: Colors.transparent,
         automaticallyImplyLeading: false,
       ),
       body: Column(
@@ -62,7 +61,7 @@ class HomePage extends StatelessWidget {
         },
         backgroundColor: Color(0xFF7A4A0F),
         shape: CircleBorder(),
-        child: const Icon(Icons.add, color: Colors.white),
+        child: const Icon(Icons.add, color: Color(0xFFFFFAEC)),
       ),
     );
   }

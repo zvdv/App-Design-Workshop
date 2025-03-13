@@ -62,7 +62,7 @@ class Recipe extends StatelessWidget {
         },
         backgroundColor: Color(0xFF7A4A0F),
         shape: CircleBorder(),
-        child: const Icon(Icons.home, color: Colors.white),
+        child: const Icon(Icons.home, color: Color(0xFFFFFAEC)),
       ),
     );
   }
