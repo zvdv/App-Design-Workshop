@@ -1,3 +1,4 @@
+import 'package:collector/pages/home.dart';
 import 'package:flutter/material.dart';
 
 class Recipe extends StatelessWidget {
@@ -16,6 +17,7 @@ class Recipe extends StatelessWidget {
         ),
         backgroundColor: Color(0xFF7A4A0F),
         foregroundColor: Color(0xFFFFFAEC),
+        automaticallyImplyLeading: false,
       ),
       body: ListView(
         padding: EdgeInsets.all(8),
@@ -50,6 +52,17 @@ class Recipe extends StatelessWidget {
           ),
           // List steps here
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(builder: (context) => const HomePage())
+          )
+        },
+        backgroundColor: Color(0xFF7A4A0F),
+        shape: CircleBorder(),
+        child: const Icon(Icons.home, color: Colors.white),
       ),
     );
   }

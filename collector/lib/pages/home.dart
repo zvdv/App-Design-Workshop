@@ -1,4 +1,5 @@
 import 'package:collector/models/recipe_model.dart';
+import 'package:collector/pages/add_recipe.dart';
 import 'package:collector/widgets/recipe_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
@@ -24,6 +25,7 @@ class HomePage extends StatelessWidget {
         elevation: 6.0,
         shadowColor: Color(0x00000000),
         surfaceTintColor: Colors.transparent,
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -50,6 +52,17 @@ class HomePage extends StatelessWidget {
           ),
           RecipeGrid()
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(builder: (context) => const AddRecipe())
+          )
+        },
+        backgroundColor: Color(0xFF7A4A0F),
+        shape: CircleBorder(),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
