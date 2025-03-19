@@ -1,10 +1,8 @@
-import 'dart:math';
-
 import 'package:dashboard/home.dart';
+import 'package:dashboard/messages_provider.dart';
 import 'package:dashboard/select_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_browser_client.dart';
-import 'package:mqtt_client/mqtt_client.dart';
 import 'package:provider/provider.dart';
 
 // Future<MqttClient> mqttConnect() async {
@@ -28,6 +26,15 @@ import 'package:provider/provider.dart';
 // }
 
 final client = MqttBrowserClient.withPort('ws://broker.emqx.io/mqtt', 'zoes_flutter_dashboard', 8083);
+
+void mqttConnect() async {
+  try {
+    await client.connect();
+  } on Exception catch (e) {
+    print('Client exception: $e');
+    client.disconnect();
+  }
+}
 
 void main() async {
   //MqttClient client = await mqttConnect();
@@ -64,8 +71,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider( // Wrap MaterialApp with ChangeNotifierProvider so that changes to the SelectProvider are accessible to all the pages
-      create: (context) => SelectProvider(),
+    return MultiProvider( // Wrap MaterialApp with ChangeNotifierProvider so that changes to the SelectProvider are accessible to all the pages
+      providers: [
+        ChangeNotifierProvider(create: (context) => SelectProvider()),
+        ChangeNotifierProvider(create: (context) => MessagesProvider())
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false, // Hide Debug banner
         theme: ThemeData(

@@ -1,15 +1,32 @@
 import 'package:dashboard/data_card.dart';
 import 'package:dashboard/main.dart';
+import 'package:dashboard/messages_provider.dart';
 import 'package:dashboard/select.dart';
 import 'package:dashboard/select_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatelessWidget {
+
+
+class Home extends StatefulWidget {
   const Home({
     super.key,
   });
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  bool connected = false;
+
+  void passMessages(List<MqttReceivedMessage<MqttMessage>> c){
+    final recMessage = c[0].payload as MqttPublishMessage;
+    final message = MqttPublishPayload.bytesToStringAsString(recMessage.payload.message);
+    print('Received message:$message from topic: ${c[0].topic}');
+    context.read<MessagesProvider>().setMessageAndTopic(c[0].topic, message);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,29 +47,10 @@ class Home extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Expanded(child: DataGrid()),
-          BottomBar()
-        ],
-      )
-    );
-  }
-}
-
-class BottomBar extends StatefulWidget {
-  const BottomBar({
-    super.key,
-  });
-
-  @override
-  State<BottomBar> createState() => _BottomBarState();
-}
-
-class _BottomBarState extends State<BottomBar> {
-  bool connected = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
+          Expanded(
+            child: connected ? DataGrid() : SizedBox.shrink()
+          ),
+          Container(
       width: double.infinity,
       color: Color(0xFF849F09),
       child: Padding(
@@ -68,6 +66,9 @@ class _BottomBarState extends State<BottomBar> {
                 try {
                   await client.connect();
                   setState(() { connected = client.connectionStatus!.state == MqttConnectionState.connected; });
+                  client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
+                    passMessages(c);
+                  });
                 } on Exception catch (e) {
                   print('Client exception: $e');
                   client.disconnect();
@@ -77,7 +78,10 @@ class _BottomBarState extends State<BottomBar> {
             )
           ],
         ),
-      ));
+      ))
+        ],
+      )
+    );
   }
 }
 
@@ -97,19 +101,19 @@ class DataGrid extends StatelessWidget {
         // Use if statement before widget to show it conditionally
         if (context.watch<SelectProvider>().showTemperature) // Gets current value of showTemperature via SelectProvider
         DataCard(
-          value: 23.6,
+          mqttTopic: 'dashboard/temperature',
           units: "°C",
           name: "Temperature",
         ),
         if (context.watch<SelectProvider>().showHumidity)
         DataCard(
-          value: 70.8,
+          mqttTopic: 'dashboard/humidity',
           units: "%",
           name: "Humidity",
         ),
         if (context.watch<SelectProvider>().showPrecipitation)
         DataCard(
-          value: 5,
+          mqttTopic: 'dashboard/precipitation',
           units: "mm",
           name: "Precipitation",
         )
