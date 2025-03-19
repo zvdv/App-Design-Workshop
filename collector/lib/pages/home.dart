@@ -113,13 +113,12 @@ class RecipeGrid extends StatelessWidget {
 }
 
 List<RecipeCard> getRecipes(){
-  List<RecipeModel> recipes = Hive.box("RECIPE_BOX").get("RECIPES") ?? [];
+  Iterable<RecipeModel> recipes = Hive.box<RecipeModel>("recipe_box").values;
   List<RecipeCard> recipeCards = [];
 
   for (RecipeModel recipe in recipes){
     recipeCards.add(RecipeCard(
-      title: recipe.title,
-      image: recipe.imagePath
+      recipe: recipe,
     ));
   }
 

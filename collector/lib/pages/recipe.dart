@@ -1,8 +1,13 @@
-import 'package:collector/pages/home.dart';
+import 'package:collector/models/recipe_model.dart';
 import 'package:flutter/material.dart';
 
 class Recipe extends StatelessWidget {
-  const Recipe({super.key});
+  final RecipeModel recipe;
+
+  const Recipe({
+    super.key,
+    required this.recipe
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +15,7 @@ class Recipe extends StatelessWidget {
       backgroundColor: Color(0xFFFFF4D9),
       appBar: AppBar(
         title: Text(
-          "Recipe Name",
+          recipe.title,
           style: TextStyle(
             fontFamily: 'Gorditas',
           ),
@@ -28,7 +33,7 @@ class Recipe extends StatelessWidget {
             child: Card(
               clipBehavior: Clip.antiAlias,
               child: Image.asset(
-                'assets/images/ema-datsi.jpg', // Should be image for current recipe
+                recipe.imagePath,
                 fit: BoxFit.cover,
               ),
             ),
@@ -42,6 +47,8 @@ class Recipe extends StatelessWidget {
                   ),
           ),
           // List ingredients here
+          Text(recipe.ingredients),
+
           Text(
             "Steps",
             style: TextStyle(
@@ -51,14 +58,13 @@ class Recipe extends StatelessWidget {
                   ),
           ),
           // List steps here
+          Text(recipe.steps),
+          
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(builder: (context) => const HomePage())
-          )
+          Navigator.pop(context)
         },
         backgroundColor: Color(0xFF7A4A0F),
         shape: CircleBorder(),

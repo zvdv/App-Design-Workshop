@@ -1,9 +1,9 @@
 // import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
-// part 'recipe_model.g.dart';
+part 'recipe_model.g.dart';
 
 @HiveType(typeId: 0)
-class RecipeModel {
+class RecipeModel extends HiveObject {
   @HiveField(0)
   String title;
 
