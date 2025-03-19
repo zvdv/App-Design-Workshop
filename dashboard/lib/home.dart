@@ -1,7 +1,9 @@
 import 'package:dashboard/data_card.dart';
+import 'package:dashboard/main.dart';
 import 'package:dashboard/select.dart';
 import 'package:dashboard/select_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:mqtt_client/mqtt_client.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
@@ -26,8 +28,56 @@ class Home extends StatelessWidget {
           )
         ],
       ),
-      body: DataGrid()
+      body: Column(
+        children: [
+          Expanded(child: DataGrid()),
+          BottomBar()
+        ],
+      )
     );
+  }
+}
+
+class BottomBar extends StatefulWidget {
+  const BottomBar({
+    super.key,
+  });
+
+  @override
+  State<BottomBar> createState() => _BottomBarState();
+}
+
+class _BottomBarState extends State<BottomBar> {
+  bool connected = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: Color(0xFF849F09),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              connected ? 'MQTT connected!' : 'MQTT not connected.'
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  await client.connect();
+                  setState(() { connected = client.connectionStatus!.state == MqttConnectionState.connected; });
+                } on Exception catch (e) {
+                  print('Client exception: $e');
+                  client.disconnect();
+                }
+              },
+              child: Text('Connect')
+            )
+          ],
+        ),
+      ));
   }
 }
 

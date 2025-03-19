@@ -40,21 +40,21 @@ void main() async {
   // client.port = 8083;
   client.onConnected = () => print('Connected!');
 
-  try {
-    await client.connect();
-  } on Exception catch (e) {
-    print('Client exception: $e');
-    client.disconnect();
-  }
+  // try {
+  //   await client.connect();
+  // } on Exception catch (e) {
+  //   print('Client exception: $e');
+  //   client.disconnect();
+  // }
 
-  if (client.connectionStatus!.state == MqttConnectionState.connected){
-    client.subscribe('zoe/test', MqttQos.atLeastOnce);
-    client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
-      final recMessage = c![0].payload as MqttPublishMessage;
-      final payload = MqttPublishPayload.bytesToStringAsString(recMessage.payload.message);
-      print('Received message:$payload from topic: ${c[0].topic}');
-    });
-  }
+  // if (client.connectionStatus!.state == MqttConnectionState.connected){
+  //   client.subscribe('zoe/test', MqttQos.atLeastOnce);
+  //   client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
+  //     final recMessage = c![0].payload as MqttPublishMessage;
+  //     final payload = MqttPublishPayload.bytesToStringAsString(recMessage.payload.message);
+  //     print('Received message:$payload from topic: ${c[0].topic}');
+  //   });
+  // }
 
   runApp(const MainApp());
 }
