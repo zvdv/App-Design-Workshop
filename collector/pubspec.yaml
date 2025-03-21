@@ -11,6 +11,10 @@ dependencies:
     sdk: flutter
   hive_ce: ^2.10.1
   hive_ce_flutter: ^2.2.0
+  image_field:
+    git:
+      url: https://github.com/Protoss78/flutter_image_field.git
+      ref: main
   provider: ^6.1.2
 
 dev_dependencies:

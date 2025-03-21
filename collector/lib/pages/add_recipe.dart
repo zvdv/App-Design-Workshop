@@ -1,7 +1,7 @@
 import 'package:collector/models/recipe_model.dart';
-import 'package:collector/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:image_field/image_field.dart';
 
 class AddRecipe extends StatelessWidget {
   const AddRecipe({super.key});
@@ -21,18 +21,7 @@ class AddRecipe extends StatelessWidget {
         foregroundColor: Color(0xFFFFFAEC),
         automaticallyImplyLeading: false,
       ),
-      body: RecipeForm(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => {
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(builder: (context) => const HomePage())
-          )
-        },
-        backgroundColor: Color(0xFF7A4A0F),
-        shape: CircleBorder(),
-        child: const Icon(Icons.home, color: Color(0xFFFFFAEC)),
-      ),
+      body: RecipeForm()
     );
   }
 }
@@ -46,7 +35,7 @@ class RecipeForm extends StatefulWidget {
 
 class _RecipeFormState extends State<RecipeForm> {
   final _formKey = GlobalKey<FormState>();
-  RecipeModel recipe = RecipeModel(title: '', imagePath: 'assets/images/ema-datsi.jpg', ingredients: '', steps: '');
+  RecipeModel recipe = RecipeModel(title: '', imagePath: '', ingredients: '', steps: '');
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +71,27 @@ class _RecipeFormState extends State<RecipeForm> {
               ),
             ),
             // Image Field ( TODO : replace with image uploader)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text('Add image', style: TextStyle(color: Color(0xFF7A4A0F))),
+                  SizedBox(width: 20,),
+                  SizedBox(
+                    width: 200,
+                    child: ImageField(
+                      multipleUpload: false,
+                      enabledCaption: false,
+                      cardinality: 1,
+                      onSave:(List<ImageAndCaptionModel>? imageAndCaptionList) {
+                        // Save image to Hive db??
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: TextFormField(
@@ -141,16 +151,28 @@ class _RecipeFormState extends State<RecipeForm> {
                 },
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                // Validate returns true if the form is valid, or false otherwise.
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  Hive.box<RecipeModel>("recipe_box").add(recipe);
-                }
-              },
-              child: const Text('Add Recipe'),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                  }, 
+                  child: const Text('Cancel')
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Validate returns true if the form is valid, or false otherwise.
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      Hive.box<RecipeModel>("recipe_box").add(recipe);
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: const Text('Add Recipe'),
+                ),
+              ],
+            )
           ],
         ),
       ),

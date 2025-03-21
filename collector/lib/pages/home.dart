@@ -2,7 +2,7 @@ import 'package:collector/models/recipe_model.dart';
 import 'package:collector/pages/add_recipe.dart';
 import 'package:collector/widgets/recipe_card.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_ce/hive.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
@@ -75,39 +75,61 @@ class RecipeGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: GridView.count(
-          crossAxisCount: 3,
-          mainAxisSpacing: 4,
-          crossAxisSpacing: 4,
-          padding: EdgeInsets.all(8.0),
-          children: getRecipes(),
-          // [
-          //   RecipeCard(
-          //     image: 'assets/images/ema-datsi.jpg',
-          //     title: "Ema Datsi",
-          //   ),
-          //   RecipeCard(
-          //     image: 'assets/images/friedrice.jpg',
-          //     title: "Fried Rice"
-          //   ),
-          //   RecipeCard(
-          //     image: 'assets/images/momo.jpeg',
-          //     title: "Momo"
-          //   ),
-          //   RecipeCard(
-          //     image: 'assets/images/pizza.jpg',
-          //     title: "Pizza"
-          //   ),
-          //   RecipeCard(
-          //     image: 'assets/images/puta.jpg',
-          //     title: "Puta"
-          //   ),
-          //   RecipeCard(
-          //     image: 'assets/images/thukpa.jpg',
-          //     title: "Thukpa"
-          //   ),
-          // ]
-        ),
+      child: ValueListenableBuilder(
+        valueListenable: Hive.box<RecipeModel>("recipe_box").listenable(),
+        builder: (context, box, _){
+          final recipes = box.values.toList();
+          if (recipes.isEmpty){
+            return Center(
+              child: Text(
+                'Add your first recipe with the + button!',
+                style: TextStyle(
+                  color: Color(0xFF7A4A0F)
+                )
+              )
+            );
+          }
+      
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+            itemCount: recipes.length,
+            itemBuilder: (context, index){
+              return RecipeCard(recipe: recipes[index]);
+            },
+            // crossAxisCount: 3,
+            // mainAxisSpacing: 4,
+            // crossAxisSpacing: 4,
+            padding: EdgeInsets.all(8.0),
+            //children: getRecipes(),
+            // [
+            //   RecipeCard(
+            //     image: 'assets/images/ema-datsi.jpg',
+            //     title: "Ema Datsi",
+            //   ),
+            //   RecipeCard(
+            //     image: 'assets/images/friedrice.jpg',
+            //     title: "Fried Rice"
+            //   ),
+            //   RecipeCard(
+            //     image: 'assets/images/momo.jpeg',
+            //     title: "Momo"
+            //   ),
+            //   RecipeCard(
+            //     image: 'assets/images/pizza.jpg',
+            //     title: "Pizza"
+            //   ),
+            //   RecipeCard(
+            //     image: 'assets/images/puta.jpg',
+            //     title: "Puta"
+            //   ),
+            //   RecipeCard(
+            //     image: 'assets/images/thukpa.jpg',
+            //     title: "Thukpa"
+            //   ),
+            // ]
+          );
+        }
+      ),
     );
   }
 }

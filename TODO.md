@@ -13,7 +13,9 @@
 - [x] Make button on recipe page to delete recipe
 - [ ] Make recipes editable
 - [ ] Implement seach functionality
-- [ ] Use ValueListenableBuilder to update recipe homepage
+- [x] Use ValueListenableBuilder to update recipe homepage
+- [x] Add image uploader to recipe form
+- [ ] Store images from uploader in Hive database
 
 ## Dashboard app example (`dashboard/`)
 

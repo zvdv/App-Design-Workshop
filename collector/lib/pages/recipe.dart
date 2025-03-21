@@ -49,11 +49,12 @@ class Recipe extends StatelessWidget {
                     ),
                   ],
                 ),
-              ).then((value){
-                print(value);
-                Hive.box<RecipeModel>("recipe_box").delete(recipe.key);
-                if (context.mounted){
-                  Navigator.pop(context);
+              ).then((delete){
+                if (delete!){
+                  Hive.box<RecipeModel>("recipe_box").delete(recipe.key);
+                  if (context.mounted){
+                    Navigator.pop(context);
+                  }
                 }
               });
             },
