@@ -10,11 +10,12 @@
 
 - [x] Make 3 pages as in Figma design for recipe app example
 - [x] Add local database functionality to recipe app example
-- [ ] Make button on recipe page to delete recipe
+- [x] Make button on recipe page to delete recipe
 - [ ] Make recipes editable
 - [ ] Implement seach functionality
+- [ ] Use ValueListenableBuilder to update recipe homepage
 
 ## Dashboard app example (`dashboard/`)
 
-- [ ] Make data values updatable
-- [ ] Get data values via MQTT
+- [x] Make data values updatable
+- [x] Get data values via MQTT

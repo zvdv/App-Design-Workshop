@@ -1,5 +1,6 @@
 import 'package:collector/models/recipe_model.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_ce/hive.dart';
 
 class Recipe extends StatelessWidget {
   final RecipeModel recipe;
@@ -23,6 +24,42 @@ class Recipe extends StatelessWidget {
         backgroundColor: Color(0xFF7A4A0F),
         foregroundColor: Color(0xFFFFFAEC),
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            onPressed: () {
+              
+            },
+            icon: Icon(Icons.edit),
+          ),
+          IconButton(
+            onPressed: () {
+              showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Are you sure you want to delete this recipe?'),
+                  content: const Text('This action cannot be undone.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text('Delete'),
+                    ),
+                  ],
+                ),
+              ).then((value){
+                print(value);
+                Hive.box<RecipeModel>("recipe_box").delete(recipe.key);
+                if (context.mounted){
+                  Navigator.pop(context);
+                }
+              });
+            },
+            icon: Icon(Icons.delete),
+          )
+        ],
       ),
       body: ListView(
         padding: EdgeInsets.all(8),
