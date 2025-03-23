@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:collector/models/recipe_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:image_field/image_field.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AddRecipe extends StatelessWidget {
   const AddRecipe({super.key});
@@ -36,6 +38,7 @@ class RecipeForm extends StatefulWidget {
 class _RecipeFormState extends State<RecipeForm> {
   final _formKey = GlobalKey<FormState>();
   RecipeModel recipe = RecipeModel(title: '', imagePath: '', ingredients: '', steps: '');
+  dynamic imagefile;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +73,7 @@ class _RecipeFormState extends State<RecipeForm> {
                 },
               ),
             ),
-            // Image Field ( TODO : replace with image uploader)
+            // Image Field
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
               child: Row(
@@ -84,34 +87,38 @@ class _RecipeFormState extends State<RecipeForm> {
                       multipleUpload: false,
                       enabledCaption: false,
                       cardinality: 1,
-                      onSave:(List<ImageAndCaptionModel>? imageAndCaptionList) {
-                        // Save image to Hive db??
+                      onSave:(List<ImageAndCaptionModel>? images) async {
+                        // Save image and path to Hive db
+                        //print(images![0].file);
+                        // TODO : handle if no image is picked
+                        imagefile = images![0].file;
                       },
                     ),
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Image path *',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24)
-                  )
-                ),
-                onSaved: (value) => recipe.imagePath = value!,
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            // Ingredients Field
+            // TODO : take this field out later
+            // Padding(
+            //   padding: const EdgeInsets.only(bottom: 8.0),
+            //   child: TextFormField(
+            //     decoration: InputDecoration(
+            //       labelText: 'Image path *',
+            //       border: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(24)
+            //       )
+            //     ),
+            //     onSaved: (value) => recipe.imagePath = value!,
+            //     // The validator receives the text that the user has entered.
+            //     validator: (value) {
+            //       if (value == null || value.isEmpty) {
+            //         return 'Please enter some text';
+            //       }
+            //       return null;
+            //     },
+            //   ),
+            // ),
+            // Ingredients Field TODO : allow multiple ingredient entries
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: TextFormField(
@@ -131,7 +138,7 @@ class _RecipeFormState extends State<RecipeForm> {
                 },
               ),
             ),
-            // Steps Field
+            // Steps Field TODO : allow multiple step entries
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: TextFormField(
@@ -161,12 +168,22 @@ class _RecipeFormState extends State<RecipeForm> {
                   child: const Text('Cancel')
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // Validate returns true if the form is valid, or false otherwise.
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       Hive.box<RecipeModel>("recipe_box").add(recipe);
-                      Navigator.pop(context);
+                      final directory = await getApplicationDocumentsDirectory();
+                      final String path = '${directory.path}/image${recipe.key}.jpg';
+                      final File file = File(path);
+                      print(file.path);
+                      file.writeAsBytesSync(imagefile);
+                      print(file);
+                      recipe.imagePath = file.path;
+                      Hive.box<RecipeModel>("recipe_box").put(recipe.key, recipe);
+                      if (context.mounted){
+                        Navigator.pop(context);
+                      }
                     }
                   },
                   child: const Text('Add Recipe'),

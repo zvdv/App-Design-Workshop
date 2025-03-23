@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:collector/models/recipe_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
@@ -70,8 +72,8 @@ class Recipe extends StatelessWidget {
             width: double.infinity,
             child: Card(
               clipBehavior: Clip.antiAlias,
-              child: Image.asset(
-                recipe.imagePath,
+              child: Image.file(
+                File(recipe.imagePath),
                 fit: BoxFit.cover,
               ),
             ),

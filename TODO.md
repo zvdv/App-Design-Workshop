@@ -15,9 +15,12 @@
 - [ ] Implement seach functionality
 - [x] Use ValueListenableBuilder to update recipe homepage
 - [x] Add image uploader to recipe form
-- [ ] Store images from uploader in Hive database
+- [ ] Store images in app storage and store image paths in Hive database
+- [x] Make image save with rest of form data (not separately when clicking 'done' in image uploader)
+- [ ] Allow users to enter multiple ingredients and steps (separate fields)
 
 ## Dashboard app example (`dashboard/`)
 
 - [x] Make data values updatable
 - [x] Get data values via MQTT
+- [ ] Put connect button in the centre when not connected, hide otherwise

@@ -15,6 +15,7 @@ dependencies:
     git:
       url: https://github.com/Protoss78/flutter_image_field.git
       ref: main
+  path_provider: ^2.1.5
   provider: ^6.1.2
 
 dev_dependencies:

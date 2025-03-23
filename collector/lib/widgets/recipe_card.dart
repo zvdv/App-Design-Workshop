@@ -1,4 +1,6 @@
 // import 'package:collector/models/recipe_model.dart';
+import 'dart:io';
+
 import 'package:collector/models/recipe_model.dart';
 import 'package:collector/pages/recipe.dart';
 import 'package:flutter/material.dart';
@@ -38,8 +40,8 @@ class _RecipeCardState extends State<RecipeCard> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset(
-              widget.recipe.imagePath,
+            Image.file(
+              File(widget.recipe.imagePath),
               fit: BoxFit.cover,
             ),
             if (showTitle)

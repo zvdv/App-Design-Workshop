@@ -94,6 +94,10 @@ class RecipeGrid extends StatelessWidget {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
             itemCount: recipes.length,
             itemBuilder: (context, index){
+              // if (recipes[index].imagePath == ''){
+              //   print('Home page builder found empty imagePath');
+              //   return null;
+              // }
               return RecipeCard(recipe: recipes[index]);
             },
             // crossAxisCount: 3,
