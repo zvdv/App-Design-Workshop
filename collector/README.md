@@ -1,3 +1,3 @@
-# collector
+# Recipe Book
 
-A new Flutter project.
+Collect recipes in this Flutter app using a local Hive CE database.

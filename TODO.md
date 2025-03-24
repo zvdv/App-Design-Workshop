@@ -5,6 +5,7 @@
 - [x] Add Figma workshop review document to repo
 - [ ] Finish writing Flutter workshop description
 - [x] Add Figma design for recipe app (`collector/` example app)
+- [ ] Add detailed READMEs for `collector/` and `dashboard/`
 
 ## Recipe app example (`collector/`)
 

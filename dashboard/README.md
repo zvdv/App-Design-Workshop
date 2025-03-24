@@ -1,3 +1,2 @@
-# dashboard
+# MQTT Dashboard
 
-A new Flutter project.
