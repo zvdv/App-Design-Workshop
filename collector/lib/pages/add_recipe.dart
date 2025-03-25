@@ -48,11 +48,6 @@ class _RecipeFormState extends State<RecipeForm> {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            // MyFormField(name: 'Title'),
-            // MyFormField(name: 'Image'), // For now pass a path to an existing image
-            // MyFormField(name: 'Ingredients'),
-            // MyFormField(name: 'Steps'),
-
             // Title Field
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
@@ -88,8 +83,6 @@ class _RecipeFormState extends State<RecipeForm> {
                       enabledCaption: false,
                       cardinality: 1,
                       onSave:(List<ImageAndCaptionModel>? images) async {
-                        // Save image and path to Hive db
-                        //print(images![0].file);
                         // TODO : handle if no image is picked
                         imagefile = images![0].file;
                       },
@@ -98,30 +91,12 @@ class _RecipeFormState extends State<RecipeForm> {
                 ],
               ),
             ),
-            // TODO : take this field out later
-            // Padding(
-            //   padding: const EdgeInsets.only(bottom: 8.0),
-            //   child: TextFormField(
-            //     decoration: InputDecoration(
-            //       labelText: 'Image path *',
-            //       border: OutlineInputBorder(
-            //         borderRadius: BorderRadius.circular(24)
-            //       )
-            //     ),
-            //     onSaved: (value) => recipe.imagePath = value!,
-            //     // The validator receives the text that the user has entered.
-            //     validator: (value) {
-            //       if (value == null || value.isEmpty) {
-            //         return 'Please enter some text';
-            //       }
-            //       return null;
-            //     },
-            //   ),
-            // ),
-            // Ingredients Field TODO : allow multiple ingredient entries
+            // Ingredients Field
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: TextFormField(
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
                 decoration: InputDecoration(
                   labelText: 'Ingredients *',
                   border: OutlineInputBorder(
@@ -138,10 +113,12 @@ class _RecipeFormState extends State<RecipeForm> {
                 },
               ),
             ),
-            // Steps Field TODO : allow multiple step entries
+            // Steps Field
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: TextFormField(
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
                 decoration: InputDecoration(
                   labelText: 'Steps *',
                   border: OutlineInputBorder(
@@ -176,9 +153,7 @@ class _RecipeFormState extends State<RecipeForm> {
                       final directory = await getApplicationDocumentsDirectory();
                       final String path = '${directory.path}/image${recipe.key}.jpg';
                       final File file = File(path);
-                      print(file.path);
                       file.writeAsBytesSync(imagefile);
-                      print(file);
                       recipe.imagePath = file.path;
                       Hive.box<RecipeModel>("recipe_box").put(recipe.key, recipe);
                       if (context.mounted){
@@ -196,34 +171,3 @@ class _RecipeFormState extends State<RecipeForm> {
     );
   }
 }
-
-// class MyFormField extends StatelessWidget {
-//   final String name;
-
-//   const MyFormField({
-//     super.key,
-//     required this.name
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.only(bottom: 8.0),
-//       child: TextFormField(
-//         decoration: InputDecoration(
-//           labelText: '$name *',
-//           border: OutlineInputBorder(
-//             borderRadius: BorderRadius.circular(24)
-//           )
-//         ),
-//         // The validator receives the text that the user has entered.
-//         validator: (value) {
-//           if (value == null || value.isEmpty) {
-//             return 'Please enter some text';
-//           }
-//           return null;
-//         },
-//       ),
-//     );
-//   }
-// }

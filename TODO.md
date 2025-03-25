@@ -18,7 +18,7 @@
 - [x] Add image uploader to recipe form
 - [ ] Store images in app storage and store image paths in Hive database
 - [x] Make image save with rest of form data (not separately when clicking 'done' in image uploader)
-- [ ] Allow users to enter multiple ingredients and steps (separate fields)
+- [x] Allow users to enter multiple ingredients and steps (multiline input)
 
 ## Dashboard app example (`dashboard/`)
 
