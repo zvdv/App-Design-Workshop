@@ -12,11 +12,11 @@
 - [x] Make 3 pages as in Figma design for recipe app example
 - [x] Add local database functionality to recipe app example
 - [x] Make button on recipe page to delete recipe
-- [ ] Make recipes editable
+- [x] Make recipes editable
 - [ ] Implement seach functionality
 - [x] Use ValueListenableBuilder to update recipe homepage
 - [x] Add image uploader to recipe form
-- [ ] Store images in app storage and store image paths in Hive database
+- [x] Store images in app storage and store image paths in Hive database
 - [x] Make image save with rest of form data (not separately when clicking 'done' in image uploader)
 - [x] Allow users to enter multiple ingredients and steps (multiline input)
 

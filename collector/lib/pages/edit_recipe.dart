@@ -1,0 +1,191 @@
+import 'dart:io';
+import 'package:collector/colours.dart';
+import 'package:collector/models/recipe_model.dart';
+import 'package:flutter/material.dart';
+import 'package:hive_ce/hive.dart';
+import 'package:image_field/image_field.dart';
+import 'package:path_provider/path_provider.dart';
+
+class EditRecipe extends StatelessWidget {
+  final RecipeModel recipe;
+
+  const EditRecipe({
+    super.key,
+    required this.recipe
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(kLightMain),
+      appBar: AppBar(
+        title: Text(
+          "Edit Recipe",
+          style: TextStyle(
+            fontFamily: 'Gorditas',
+          ),
+        ),
+        backgroundColor: Color(kDarkMain),
+        foregroundColor: Color(kOnDarkMain),
+        automaticallyImplyLeading: false,
+      ),
+      body: RecipeForm(initialRecipe: recipe)
+    );
+  }
+}
+
+class RecipeForm extends StatefulWidget {
+  final RecipeModel initialRecipe;
+  const RecipeForm({
+    super.key,
+    required this.initialRecipe
+  });
+
+  @override
+  State<RecipeForm> createState() => _RecipeFormState();
+}
+
+class _RecipeFormState extends State<RecipeForm> {
+  final _formKey = GlobalKey<FormState>();
+  late RecipeModel recipe = widget.initialRecipe;
+  dynamic imagefile;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: ListView(
+          children: [
+            // Title Field
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: TextFormField(
+                initialValue: recipe.title,
+                decoration: InputDecoration(
+                  labelText: 'Title *',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(24)
+                  )
+                ),
+                onSaved: (value) => recipe.title = value!,
+                // The validator receives the text that the user has entered.
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            // Image Field
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text('Add image', style: TextStyle(color: Color(kDarkMain))),
+                  SizedBox(width: 20,),
+                  SizedBox(
+                    width: 200,
+                    child: ImageField(
+                      files: recipe.imagePath == '' ? null : [
+                        ImageAndCaptionModel(file: File(recipe.imagePath).readAsBytesSync(), caption: '')
+                      ],
+                      multipleUpload: false,
+                      enabledCaption: false,
+                      cardinality: 1,
+                      onSave:(List<ImageAndCaptionModel>? images) async {
+                        if (images != null && images.isNotEmpty){
+                          imagefile = images[0].file;
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Ingredients Field
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: TextFormField(
+                initialValue: recipe.ingredients,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: InputDecoration(
+                  labelText: 'Ingredients *',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(24)
+                  )
+                ),
+                onSaved: (value) => recipe.ingredients = value!,
+                // The validator receives the text that the user has entered.
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            // Steps Field
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: TextFormField(
+                initialValue: recipe.steps,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: InputDecoration(
+                  labelText: 'Steps *',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(24)
+                  )
+                ),
+                onSaved: (value) => recipe.steps = value!,
+                // The validator receives the text that the user has entered.
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: (){
+                    Navigator.pop(context, false);
+                  }, 
+                  child: const Text('Cancel')
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    // Validate returns true if the form is valid, or false otherwise.
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      if (imagefile != null){
+                        final directory = await getApplicationDocumentsDirectory();
+                        final String path = '${directory.path}/image${recipe.key}.jpg';
+                        final File file = File(path);
+                        file.writeAsBytesSync(imagefile);
+                        recipe.imagePath = file.path;
+                      }
+                      Hive.box<RecipeModel>("recipe_box").put(widget.initialRecipe.key, recipe);
+                      if (context.mounted){
+                        Navigator.pop(context, true);
+                      }
+                    }
+                  },
+                  child: const Text('Save Recipe'),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
