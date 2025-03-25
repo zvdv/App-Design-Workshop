@@ -46,7 +46,7 @@ class _RecipeFormState extends State<RecipeForm> {
       key: _formKey,
       child: Padding(
         padding: const EdgeInsets.all(12),
-        child: Column(
+        child: ListView(
           children: [
             // Title Field
             Padding(
@@ -83,8 +83,9 @@ class _RecipeFormState extends State<RecipeForm> {
                       enabledCaption: false,
                       cardinality: 1,
                       onSave:(List<ImageAndCaptionModel>? images) async {
-                        // TODO : handle if no image is picked
-                        imagefile = images![0].file;
+                        if (images != null && images.isNotEmpty){
+                          imagefile = images[0].file;
+                        }
                       },
                     ),
                   ),
@@ -150,12 +151,14 @@ class _RecipeFormState extends State<RecipeForm> {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       Hive.box<RecipeModel>("recipe_box").add(recipe);
-                      final directory = await getApplicationDocumentsDirectory();
-                      final String path = '${directory.path}/image${recipe.key}.jpg';
-                      final File file = File(path);
-                      file.writeAsBytesSync(imagefile);
-                      recipe.imagePath = file.path;
-                      Hive.box<RecipeModel>("recipe_box").put(recipe.key, recipe);
+                      if (imagefile != null){
+                        final directory = await getApplicationDocumentsDirectory();
+                        final String path = '${directory.path}/image${recipe.key}.jpg';
+                        final File file = File(path);
+                        file.writeAsBytesSync(imagefile);
+                        recipe.imagePath = file.path;
+                        Hive.box<RecipeModel>("recipe_box").put(recipe.key, recipe);
+                      }
                       if (context.mounted){
                         Navigator.pop(context);
                       }

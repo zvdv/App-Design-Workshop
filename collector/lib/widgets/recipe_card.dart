@@ -40,6 +40,8 @@ class _RecipeCardState extends State<RecipeCard> {
         child: Stack(
           fit: StackFit.expand,
           children: [
+            widget.recipe.imagePath == '' ?
+            Image.asset('assets/images/default.jpg', fit: BoxFit.cover) :
             Image.file(
               File(widget.recipe.imagePath),
               fit: BoxFit.cover,

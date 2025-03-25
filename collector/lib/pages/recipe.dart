@@ -72,7 +72,9 @@ class Recipe extends StatelessWidget {
             width: double.infinity,
             child: Card(
               clipBehavior: Clip.antiAlias,
-              child: Image.file(
+              child: recipe.imagePath == '' ?
+              Image.asset('assets/images/default.jpg', fit: BoxFit.cover) :
+              Image.file(
                 File(recipe.imagePath),
                 fit: BoxFit.cover,
               ),
