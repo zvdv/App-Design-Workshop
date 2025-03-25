@@ -8,4 +8,6 @@ In this workshop, we explored everything needed to create complex, interactive d
 
 ## Part 2: Intro to Flutter
 
-In this workshop, we learned how to bring designs to life on any device using Flutter. During the workshop, each participant created a project from the Empty Application template and developed an app similar to `inventory`. This example demonstrated a few key functions such as navigating between pages, updating values in the UI (state), and reusing custom widgets.
+In this workshop, we learned how to bring designs to life on any device using Flutter. During the workshop, each participant created a project from the Empty Application template and developed an app similar to `inventory/`. This example demonstrated a few key functions such as navigating between pages, updating values in the UI (state), and reusing custom widgets.
+
+Check out the READMEs for each Flutter project (`collector/`, `dashboard/`, and `inventory/`) for details. So far, `inventory/` has a filled-out README and detailed comments in its two Dart files (in `inventory/lib`). Soon I will add information to the READMEs of the other two projects.
