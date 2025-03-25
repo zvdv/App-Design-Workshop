@@ -1,3 +1,4 @@
+import 'package:collector/colours.dart';
 import 'package:collector/models/recipe_model.dart';
 import 'package:collector/pages/add_recipe.dart';
 import 'package:collector/widgets/recipe_card.dart';
@@ -12,7 +13,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFF4D9),
+      backgroundColor: Color(kLightMain),
       appBar: AppBar(
         title: Text(
           "Recipes",
@@ -20,10 +21,10 @@ class HomePage extends StatelessWidget {
             fontFamily: 'Gorditas',
           ),
         ),
-        backgroundColor: Color(0xFF7A4A0F),
-        foregroundColor: Color(0xFFFFFAEC),
+        backgroundColor: Color(kDarkMain),
+        foregroundColor: Color(kOnDarkMain),
         elevation: 6.0,
-        shadowColor: Color(0x00000000),
+        shadowColor: Color(kBlack),
         automaticallyImplyLeading: false,
       ),
       body: Column(
@@ -33,19 +34,19 @@ class HomePage extends StatelessWidget {
             padding:
                 const EdgeInsets.fromLTRB(26, 12, 26, 0),
             child: SearchBar(
-              backgroundColor: WidgetStatePropertyAll(Color(0xFFFFFFFF)),
+              backgroundColor: WidgetStatePropertyAll(Color(kWhite)),
               elevation: WidgetStatePropertyAll(3.0),
               hintText: "Search recipes...",
               hintStyle: WidgetStatePropertyAll(TextStyle(
-                color: Color(0xFFE2D9C4),
+                color: Color(kHintOnWhite),
               )),
-              overlayColor: WidgetStatePropertyAll(Color(0xFFFFFFFF)),
+              overlayColor: WidgetStatePropertyAll(Color(kWhite)),
               textStyle: WidgetStatePropertyAll(TextStyle(
-                color: Color(0xFFE2D9C4),
+                color: Color(kDarkMain),
               )),
               leading: Icon(
                 Icons.search,
-                color: Color(0xFFE2D9C4),
+                color: Color(kHintOnWhite),
               ),
             ),
           ),
@@ -59,9 +60,9 @@ class HomePage extends StatelessWidget {
             MaterialPageRoute<void>(builder: (context) => const AddRecipe())
           )
         },
-        backgroundColor: Color(0xFF7A4A0F),
+        backgroundColor: Color(kDarkMain),
         shape: CircleBorder(),
-        child: const Icon(Icons.add, color: Color(0xFFFFFAEC)),
+        child: const Icon(Icons.add, color: Color(kOnDarkMain)),
       ),
     );
   }
@@ -84,7 +85,7 @@ class RecipeGrid extends StatelessWidget {
               child: Text(
                 'Add your first recipe with the + button!',
                 style: TextStyle(
-                  color: Color(0xFF7A4A0F)
+                  color: Color(kDarkMain)
                 )
               )
             );
@@ -94,59 +95,12 @@ class RecipeGrid extends StatelessWidget {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
             itemCount: recipes.length,
             itemBuilder: (context, index){
-              // if (recipes[index].imagePath == ''){
-              //   print('Home page builder found empty imagePath');
-              //   return null;
-              // }
               return RecipeCard(recipe: recipes[index]);
             },
-            // crossAxisCount: 3,
-            // mainAxisSpacing: 4,
-            // crossAxisSpacing: 4,
             padding: EdgeInsets.all(8.0),
-            //children: getRecipes(),
-            // [
-            //   RecipeCard(
-            //     image: 'assets/images/ema-datsi.jpg',
-            //     title: "Ema Datsi",
-            //   ),
-            //   RecipeCard(
-            //     image: 'assets/images/friedrice.jpg',
-            //     title: "Fried Rice"
-            //   ),
-            //   RecipeCard(
-            //     image: 'assets/images/momo.jpeg',
-            //     title: "Momo"
-            //   ),
-            //   RecipeCard(
-            //     image: 'assets/images/pizza.jpg',
-            //     title: "Pizza"
-            //   ),
-            //   RecipeCard(
-            //     image: 'assets/images/puta.jpg',
-            //     title: "Puta"
-            //   ),
-            //   RecipeCard(
-            //     image: 'assets/images/thukpa.jpg',
-            //     title: "Thukpa"
-            //   ),
-            // ]
           );
         }
       ),
     );
   }
-}
-
-List<RecipeCard> getRecipes(){
-  Iterable<RecipeModel> recipes = Hive.box<RecipeModel>("recipe_box").values;
-  List<RecipeCard> recipeCards = [];
-
-  for (RecipeModel recipe in recipes){
-    recipeCards.add(RecipeCard(
-      recipe: recipe,
-    ));
-  }
-
-  return recipeCards;
 }

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:collector/colours.dart';
 import 'package:collector/models/recipe_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
@@ -11,7 +12,7 @@ class AddRecipe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFF4D9),
+      backgroundColor: Color(kLightMain),
       appBar: AppBar(
         title: Text(
           "Add a Recipe",
@@ -19,8 +20,8 @@ class AddRecipe extends StatelessWidget {
             fontFamily: 'Gorditas',
           ),
         ),
-        backgroundColor: Color(0xFF7A4A0F),
-        foregroundColor: Color(0xFFFFFAEC),
+        backgroundColor: Color(kDarkMain),
+        foregroundColor: Color(kOnDarkMain),
         automaticallyImplyLeading: false,
       ),
       body: RecipeForm()
@@ -74,7 +75,7 @@ class _RecipeFormState extends State<RecipeForm> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('Add image', style: TextStyle(color: Color(0xFF7A4A0F))),
+                  Text('Add image', style: TextStyle(color: Color(kDarkMain))),
                   SizedBox(width: 20,),
                   SizedBox(
                     width: 200,

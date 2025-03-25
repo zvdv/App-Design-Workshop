@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:collector/colours.dart';
 import 'package:collector/models/recipe_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
@@ -15,7 +16,7 @@ class Recipe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFF4D9),
+      backgroundColor: Color(kLightMain),
       appBar: AppBar(
         title: Text(
           recipe.title,
@@ -23,8 +24,8 @@ class Recipe extends StatelessWidget {
             fontFamily: 'Gorditas',
           ),
         ),
-        backgroundColor: Color(0xFF7A4A0F),
-        foregroundColor: Color(0xFFFFFAEC),
+        backgroundColor: Color(kDarkMain),
+        foregroundColor: Color(kOnDarkMain),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -84,7 +85,7 @@ class Recipe extends StatelessWidget {
             "Ingredients",
             style: TextStyle(
                     fontSize: 26,
-                    color: Colors.black,
+                    color: Color(kBlack),
                     fontFamily: "Gorditas",
                   ),
           ),
@@ -95,7 +96,7 @@ class Recipe extends StatelessWidget {
             "Steps",
             style: TextStyle(
                     fontSize: 26,
-                    color: Colors.black,
+                    color: Color(kBlack),
                     fontFamily: "Gorditas",
                   ),
           ),
@@ -108,9 +109,9 @@ class Recipe extends StatelessWidget {
         onPressed: () => {
           Navigator.pop(context)
         },
-        backgroundColor: Color(0xFF7A4A0F),
+        backgroundColor: Color(kDarkMain),
         shape: CircleBorder(),
-        child: const Icon(Icons.home, color: Color(0xFFFFFAEC)),
+        child: const Icon(Icons.home, color: Color(kOnDarkMain)),
       ),
     );
   }

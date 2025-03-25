@@ -1,3 +1,4 @@
+import 'package:collector/colours.dart';
 import 'package:collector/hive_registrar.g.dart';
 import 'package:collector/models/recipe_model.dart';
 import 'package:collector/pages/home.dart';
@@ -22,7 +23,7 @@ class MainApp extends StatelessWidget {
       home: HomePage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF7A4A0F))
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(kDarkMain))
       ),
     );
   }

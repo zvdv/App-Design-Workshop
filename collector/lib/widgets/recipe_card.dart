@@ -1,14 +1,10 @@
-// import 'package:collector/models/recipe_model.dart';
 import 'dart:io';
-
+import 'package:collector/colours.dart';
 import 'package:collector/models/recipe_model.dart';
 import 'package:collector/pages/recipe.dart';
 import 'package:flutter/material.dart';
 
 class RecipeCard extends StatefulWidget {
-  //const RecipeCard({super.key});
-  // final String title;
-  // final String image;
   final RecipeModel recipe;
 
   const RecipeCard({super.key, required this.recipe});
@@ -50,7 +46,7 @@ class _RecipeCardState extends State<RecipeCard> {
               Container(
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
-                        colors: [Color(0xFF000000), Colors.transparent],
+                        colors: [Color(kBlack), Colors.transparent],
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter)),
               ),
@@ -62,7 +58,7 @@ class _RecipeCardState extends State<RecipeCard> {
                   widget.recipe.title,
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.white,
+                    color: Color(kWhite),
                     fontFamily: "Gorditas",
                   ),
                   //textAlign: TextAlign.start,
