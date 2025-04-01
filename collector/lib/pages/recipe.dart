@@ -39,7 +39,9 @@ class _RecipeState extends State<Recipe> {
               IconButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => EditRecipe(recipe: widget.recipe))).then((changed){
-                    setState(() {});
+                    if (changed){
+                      setState(() {});
+                    }
                   });
                 },
                 icon: Icon(Icons.edit),
