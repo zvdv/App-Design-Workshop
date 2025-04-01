@@ -13,12 +13,13 @@
 - [x] Add local database functionality to recipe app example
 - [x] Make button on recipe page to delete recipe
 - [x] Make recipes editable
-- [ ] Implement seach functionality
+- [x] Implement search functionality
 - [x] Use ValueListenableBuilder to update recipe homepage
 - [x] Add image uploader to recipe form
 - [x] Store images in app storage and store image paths in Hive database
 - [x] Make image save with rest of form data (not separately when clicking 'done' in image uploader)
 - [x] Allow users to enter multiple ingredients and steps (multiline input)
+- [ ] Make search filters for ingredients or types of recipes
 
 ## Dashboard app example (`dashboard/`)
 

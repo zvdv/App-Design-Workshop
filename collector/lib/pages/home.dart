@@ -27,43 +27,82 @@ class HomePage extends StatelessWidget {
         shadowColor: Color(kBlack),
         automaticallyImplyLeading: false,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.fromLTRB(26, 12, 26, 0),
-            child: SearchBar(
-              backgroundColor: WidgetStatePropertyAll(Color(kWhite)),
-              elevation: WidgetStatePropertyAll(3.0),
-              hintText: "Search recipes...",
-              hintStyle: WidgetStatePropertyAll(TextStyle(
-                color: Color(kHintOnWhite),
-              )),
-              overlayColor: WidgetStatePropertyAll(Color(kWhite)),
-              textStyle: WidgetStatePropertyAll(TextStyle(
-                color: Color(kDarkMain),
-              )),
-              leading: Icon(
-                Icons.search,
-                color: Color(kHintOnWhite),
-              ),
-            ),
-          ),
-          RecipeGrid()
-        ],
-      ),
+      body: HomeBody(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(builder: (context) => const AddRecipe())
-          )
+          Navigator.push(context,
+              MaterialPageRoute<void>(builder: (context) => const AddRecipe()))
         },
         backgroundColor: Color(kDarkMain),
         shape: CircleBorder(),
         child: const Icon(Icons.add, color: Color(kOnDarkMain)),
       ),
+    );
+  }
+}
+
+class HomeBody extends StatefulWidget {
+  const HomeBody({
+    super.key,
+  });
+
+  @override
+  State<HomeBody> createState() => _HomeBodyState();
+}
+
+class _HomeBodyState extends State<HomeBody> {
+  String? searchTerm;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(26, 12, 26, 0),
+          child: SearchBar(
+            backgroundColor: WidgetStatePropertyAll(Color(kWhite)),
+            elevation: WidgetStatePropertyAll(3.0),
+            hintText: "Search recipes...",
+            hintStyle: WidgetStatePropertyAll(TextStyle(
+              color: Color(kHintOnWhite),
+            )),
+            overlayColor: WidgetStatePropertyAll(Color(kWhite)),
+            textStyle: WidgetStatePropertyAll(TextStyle(
+              color: Color(kDarkMain),
+            )),
+            leading: Icon(
+              Icons.search,
+              color: Color(kHintOnWhite),
+            ),
+            onChanged: (search) => setState(() {
+              searchTerm = search;
+            }),
+          ),
+        ),
+        Expanded(
+          child: ValueListenableBuilder(
+              valueListenable: Hive.box<RecipeModel>("recipe_box").listenable(),
+              builder: (context, box, _) {
+                final recipes = searchTerm == null || searchTerm == '' ? box.values.toList() : box.values.where((recipe) => recipe.title.contains(RegExp('$searchTerm', caseSensitive: false))).toList();
+                if (recipes.isEmpty) {
+                  return Center(
+                      child: Text('Add your first recipe with the + button!',
+                          style: TextStyle(color: Color(kDarkMain))));
+                }
+
+                return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3),
+                  itemCount: recipes.length,
+                  itemBuilder: (context, index) {
+                    return RecipeCard(recipe: recipes[index]);
+                  },
+                  padding: EdgeInsets.all(8.0),
+                );
+              }),
+        )
+      ],
     );
   }
 }
@@ -77,30 +116,25 @@ class RecipeGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ValueListenableBuilder(
-        valueListenable: Hive.box<RecipeModel>("recipe_box").listenable(),
-        builder: (context, box, _){
-          final recipes = box.values.toList();
-          if (recipes.isEmpty){
-            return Center(
-              child: Text(
-                'Add your first recipe with the + button!',
-                style: TextStyle(
-                  color: Color(kDarkMain)
-                )
-              )
+          valueListenable: Hive.box<RecipeModel>("recipe_box").listenable(),
+          builder: (context, box, _) {
+            final recipes = box.values.toList();
+            if (recipes.isEmpty) {
+              return Center(
+                  child: Text('Add your first recipe with the + button!',
+                      style: TextStyle(color: Color(kDarkMain))));
+            }
+
+            return GridView.builder(
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+              itemCount: recipes.length,
+              itemBuilder: (context, index) {
+                return RecipeCard(recipe: recipes[index]);
+              },
+              padding: EdgeInsets.all(8.0),
             );
-          }
-      
-          return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-            itemCount: recipes.length,
-            itemBuilder: (context, index){
-              return RecipeCard(recipe: recipes[index]);
-            },
-            padding: EdgeInsets.all(8.0),
-          );
-        }
-      ),
+          }),
     );
   }
 }
